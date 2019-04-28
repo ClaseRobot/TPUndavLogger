@@ -19,7 +19,7 @@ namespace ULDateTime{
 
 	// Precondicion: Ninguna
 	// Postcondicion: Devuelve una instancia válida de DateTime para la fecha y hora especificada. Si @month, @day, @hour, @minute y @seconds, no se corresponden a una fecha y hora posible devuleve NULL
-	DateTime* Create(unsigned int year = 2019, unsigned int month = 1, unsigned int day = 1, unsigned int hour=0, int minutes=0, int seconds=0);
+	DateTime* Create(unsigned int year, unsigned int month, unsigned int day, unsigned int hour, int minutes, int seconds);
 
 	// Precondicion: @dateTime es una instancia válida
 	// Postcondicion: Devuelve el ańo de @dateTime.
