@@ -1,30 +1,31 @@
-//============================================================================
-// Name        : TPLoggerUndav.cpp
-// Author      : 
-// Version     :
-// Copyright   : 
-// Description : Hello World in C++, Ansi-style
-//============================================================================
-
 #include <iostream>
-#include "Email.h"
+#include "Appender.h"
+#include "DateTime.h"
 
-using std::cout;
-using std::endl;
-using namespace EmailUndav;
+using namespace std;
+using ULAppender::Appender;
+using ULDateTime::DateTime;
+
+void WriteLog(Appender* appender, string message);
 
 int main() {
-	cout << "das11das" << endl; // prints
-	cout << "nueva linea de test"<<endl;
-	cout << "pepe"<<endl;
+	Appender* consoleAppender = ULAppender::CreateConsoleAppender();
+	Appender* fileAppender = ULAppender::CreateFileAppender("salidaLogger.txt");
+	for(char number = '0'; number <= '9'; ++number){
+		string numberLine = "Linea ";
+		numberLine.push_back(number);
+		WriteLog(consoleAppender, numberLine + " - Salida por Consola");
+		WriteLog(fileAppender, numberLine + " - Salida por Archivo");
+	}
+
+	Destroy(consoleAppender);
+	Destroy(fileAppender);
 	return 0;
 }
 
-void PruebasUnitariasEmail(){
-	Email* correo = CrearMail("Parcial", "El Sábado 4 de Mayo es el parcial. Estudiar todos los temas vistos hasta el 25 de Abril.");
-	CambiarAsunto(correo, "Evaluación de Avance");
-	AgregarDestinatario(correo, "gabytubio@gmail.com");
-	AgregarDestinatario(correo, "jjlopez@gmail.com");
-	MostrarEmail(correo);
-	DestruirEmail(correo);
+void WriteLog(Appender* appender, string message){
+	DateTime* now = ULDateTime::Now();
+	string nowFormatted = ULDateTime::ToFormat(now, ULDateTime::DDMMYYYY_hhmmss);
+	ULAppender::Write(appender, nowFormatted + " - " + message);
+	ULDateTime::Destroy(now);
 }
