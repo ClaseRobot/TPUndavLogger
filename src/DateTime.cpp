@@ -1,4 +1,5 @@
 #include <string>
+#include <cstddef>
 #include "DateTime.h"
 
 using std::string;
@@ -6,7 +7,12 @@ using ULDateTime::DateTimeFormat;
 using ULDateTime::DateTime;
 
 struct ULDateTime::DateTime{
-
+	unsigned int year;
+	unsigned int month;
+	unsigned int day;
+	unsigned int hour;
+	unsigned int minute;
+	unsigned int seconds;
 };
 
 DateTime* ULDateTime::Now(){
@@ -18,31 +24,37 @@ DateTime* ULDateTime::UTCNow(){
 }
 
 DateTime* ULDateTime::Create(unsigned int year = 2019, unsigned int month = 1, unsigned int day = 1, unsigned int hour=0, int minutes=0, int seconds=0){
-	return 0;
+	DateTime* nuevoDateTime = NULL;
+	if((month < 13 && month > 0) && (day < 32 && day > 0) && year > 0){
+		if(hour < 24 && minutes < 60 && seconds < 60){
+			nuevoDateTime = new DateTime;
+		}
+	}
+	return nuevoDateTime;
 }
 
 unsigned int ULDateTime::GetYear(const DateTime* dateTime){
-	return 0;
+	return dateTime->year;
 }
 
 unsigned int ULDateTime::GetMonth(const DateTime* dateTime){
-	return 0;
+	return dateTime->month;
 }
 
 unsigned int ULDateTime::GetDay(const DateTime* dateTime){
-	return 0;
+	return dateTime->day;
 }
 
 unsigned int ULDateTime::GetHour(const DateTime* dateTime){
-	return 0;
+	return dateTime->hour;
 }
 
 unsigned int ULDateTime::GetMinutes(const DateTime* dateTime){
-	return 0;
+	return dateTime->minute;
 }
 
 unsigned int ULDateTime::GetSeconds(const DateTime* dateTime){
-	return 0;
+	return dateTime->seconds;
 }
 
 string ULDateTime::ToFormat(const DateTime* dateTime, DateTimeFormat format){
@@ -50,4 +62,5 @@ string ULDateTime::ToFormat(const DateTime* dateTime, DateTimeFormat format){
 }
 
 void ULDateTime::Destroy(DateTime* dateTime){
+	delete dateTime;
 }
