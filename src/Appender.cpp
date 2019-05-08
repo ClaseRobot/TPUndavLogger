@@ -19,5 +19,5 @@ void ULAppender::Write(Appender* appender, string message){
 }
 
 void ULAppender::Destroy(Appender* appender){
-
+	delete appender;
 }
