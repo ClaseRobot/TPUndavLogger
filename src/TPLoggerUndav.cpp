@@ -6,7 +6,6 @@ using namespace std;
 using ULAppender::Appender;
 using ULDateTime::DateTime;
 
-//mirfrr
 void WriteLog(Appender* appender, string message);
 
 int main() {
