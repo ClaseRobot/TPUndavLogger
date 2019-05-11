@@ -2,12 +2,22 @@
 using std::string;
 using ULAppender::Appender;
 
+enum Type{file, console};
+
 struct ULAppender::Appender{
-	int param;
+	Type type;
+	string pathfile;
 };
 
 Appender* ULAppender::CreateFileAppender(string pathFile){
-	return 0;
+	Appender* newFile = NULL;
+	bool validPathFile = (pathFile != "");
+	if(validPathFile){
+		newFile = new Appender;
+		newFile->type = Type::file;
+		newFile->pathfile = pathFile;
+	}
+	return newFile;
 }
 
 Appender* ULAppender::CreateConsoleAppender(){
@@ -19,5 +29,5 @@ void ULAppender::Write(Appender* appender, string message){
 }
 
 void ULAppender::Destroy(Appender* appender){
-
+	delete appender;
 }
