@@ -5,3 +5,8 @@
 <span>implementacion de DateTime y Appender</span>
 <br/>
 <span>Fecha de entrega: 11-05-2019</span>
+<br>
+<h3>Segunda etapa</h3>
+<span>implementacion de LoggerSettings y AppenderSettings</span>
+<br/>
+<span>Fecha de entrega: ?-?-2019</span>
