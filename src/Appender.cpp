@@ -1,5 +1,8 @@
+#include <iostream>
 #include "Appender.h"
 using std::string;
+using std::cout;
+using std::endl;
 using ULAppender::Appender;
 
 enum Type{file, console};
@@ -21,10 +24,16 @@ Appender* ULAppender::CreateFileAppender(string pathFile){
 }
 
 Appender* ULAppender::CreateConsoleAppender(){
-	return 0;
+	Appender* messageConsole = new Appender;
+	messageConsole->type = Type::console;
+	messageConsole->pathfile = "console aplication";
+	return messageConsole;
 }
 
 void ULAppender::Write(Appender* appender, string message){
+	if(appender->type == Type::console){
+		std::cout<<message<<std::endl;
+	}
 
 }
 

@@ -6,7 +6,6 @@ using namespace std;
 using ULAppender::Appender;
 using ULDateTime::DateTime;
 
-
 void WriteLog(Appender* appender, string message);
 
 int main() {
@@ -21,7 +20,6 @@ int main() {
 
 	Destroy(consoleAppender);
 	Destroy(fileAppender);
-	return 0;
 }
 
 void WriteLog(Appender* appender, string message){
@@ -30,3 +28,6 @@ void WriteLog(Appender* appender, string message){
 	ULAppender::Write(appender, nowFormatted + " - " + message);
 	ULDateTime::Destroy(now);
 }
+
+
+
