@@ -3,31 +3,44 @@
 #include "DateTime.h"
 
 using namespace std;
-using ULAppender::Appender;
-using ULDateTime::DateTime;
-
-void WriteLog(Appender* appender, string message);
+using namespace ULDateTime;
 
 int main() {
-	Appender* consoleAppender = ULAppender::CreateConsoleAppender();
-	Appender* fileAppender = ULAppender::CreateFileAppender("salidaLogger.txt");
-	for(char number = '0'; number <= '9'; ++number){
-		string numberLine = "Linea ";
-		numberLine.push_back(number);
-		WriteLog(consoleAppender, numberLine + " - Salida por Consola");
-		WriteLog(fileAppender, numberLine + " - Salida por Archivo");
-	}
+	DateTime* nuevoDate = Now();
+	DateTimeFormat formato1 = YYYYMMDD_HHmmss;
+	string test1 = ToFormat(nuevoDate, formato1);
 
-	Destroy(consoleAppender);
-	Destroy(fileAppender);
+	DateTimeFormat formato2 = YYYYMMDD_hhmmss;
+	string test2 = ToFormat(nuevoDate, formato2);
+
+	DateTimeFormat formato3 = DDMMYYYY_hhmmss;
+	string test3 = ToFormat(nuevoDate, formato3);
+
+	DateTimeFormat formato4 = DDMMYYYY_HHmmss;
+	string test4 = ToFormat(nuevoDate, formato4);
+
+	DateTimeFormat formato5 = YYYYMMDDHHmmss;
+	string test5 = ToFormat(nuevoDate, formato5);
+
+	DateTimeFormat formato6 = YYMD_Hms;
+	string test6 = ToFormat(nuevoDate, formato6);
+
+	DateTimeFormat formato7 = YYMD_hms;
+	string test7 = ToFormat(nuevoDate, formato7);
+
+	DateTimeFormat formato8 = DMYY_hms;
+	string test8 = ToFormat(nuevoDate, formato8);
+
+	DateTimeFormat formato9 = DMYY_Hms;
+	string test9 = ToFormat(nuevoDate, formato9);
+
+	cout<<test1<<endl;
+	cout<<test2<<endl;
+	cout<<test3<<endl;
+	cout<<test4<<endl;
+	cout<<test5<<endl;
+	cout<<test6<<endl;
+	cout<<test7<<endl;
+	cout<<test8<<endl;
+	cout<<test9<<endl;
 }
-
-void WriteLog(Appender* appender, string message){
-	DateTime* now = ULDateTime::Now();
-	string nowFormatted = ULDateTime::ToFormat(now, ULDateTime::DDMMYYYY_hhmmss);
-	ULAppender::Write(appender, nowFormatted + " - " + message);
-	ULDateTime::Destroy(now);
-}
-
-
-

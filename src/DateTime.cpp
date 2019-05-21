@@ -4,6 +4,7 @@
 #include "DateTime.h"
 
 using std::string;
+using std::to_string;
 using ULDateTime::DateTimeFormat;
 using ULDateTime::DateTime;
 
@@ -19,6 +20,45 @@ struct ULDateTime::DateTime{
 //PreCondicion: el timpo debe ser un puntero hacia una estructura tm valida
 //PostCondicion: Se devolvera una estructura DateTime parseada a partir de tm
 DateTime* CreateTM(tm* tiempo);
+
+//PostCondicion: devuelve un string con el numero del parametro, en caso de ser de 1 digito, le antepone 0
+string ParsearDosDigitos(int numero);
+
+//PreCondicion: la hora debe ser entre 0 y 23
+//PostCondicion: devuelve si es antes del mediodia o despues la hora
+string HoraMediodia(int hora);
+
+//PreCondicion: datetime valido,
+//formato = true, muestra la hora en formato de 12 horas
+//formato = false, muestra la hora en formato de 24 horas
+//PostCondicion: devuelve solamente el parseo de fecha y hora para los casos (sin pm o am)
+// - YYYYMMDD_HHmmss: 2019-04-27 19:01:10
+// - YYYYMMDD_hhmmss: 2019-04-27 07:01:10 p.m.
+string PrimerParseoFechaHora(const DateTime* dateTime, bool formato);
+
+//PreCondicion: datetime valido
+//formato = true, muestra la hora en formato de 12 horas
+//formato = false, muestra la hora en formato de 24 horas
+//PostCondicion: devuelve solamente el parseo de fecha y hora para los casos (sin pm o am)
+// - DDMMYYYY_hhmmss: 27-04-2019 07:01:10 p.m.
+// - DDMMYYYY_HHmmss: 27-04-2019 19:01:10
+string SegundoParseoFechaHora(const DateTime* dateTime, bool formato);
+
+//PreCondicion: datetime valido
+//formato = true, muestra la hora en formato de 12 horas
+//formato = false, muestra la hora en formato de 24 horas
+//PostCondicion: devuelve solamente el parseo de fecha y hora para los casos (sin pm o am)
+// - YYMD_Hms: 19-4-27 19:1:10
+// - YYMD_hms: 19-4-27 7:1:10 p.m.
+string TercerParseoFechaHora(const DateTime* dateTime, bool formato);
+
+//PreCondicion: datetime valido
+//formato = true, muestra la hora en formato de 12 horas
+//formato = false, muestra la hora en formato de 24 horas
+//PostCondicion: devuelve solamente el parseo de fecha y hora para los casos (sin pm o am)
+// - DMYY_hms: 27-4-19 7:1:10 p.m.
+// - DMYY_Hms: 27-4-19 19:1:10
+string CuartoParseoFechaHora(const DateTime* dateTime, bool formato);
 
 DateTime* ULDateTime::Now(){
 	tm* tiempoLocal;
@@ -36,7 +76,7 @@ DateTime* ULDateTime::UTCNow(){
 
 DateTime* ULDateTime::Create(unsigned int year = 2019, unsigned int month = 1, unsigned int day = 1, unsigned int hour=0, int minutes=0, int seconds=0){
 	DateTime* nuevoDateTime = NULL;
-	if((month < 12 && month > 0) && (day < 32 && day > 0) && year > 0){
+	if((month < 12 && month >= 0) && (day < 32 && day > 0) && year > 0){
 		if(hour < 24 && minutes < 60 && seconds < 60){
 			nuevoDateTime = new DateTime;
 			nuevoDateTime->day = day;
@@ -75,7 +115,38 @@ unsigned int ULDateTime::GetSeconds(const DateTime* dateTime){
 }
 
 string ULDateTime::ToFormat(const DateTime* dateTime, DateTimeFormat format){
-	string resultado = std::to_string(dateTime->day) + " " + std::to_string(dateTime->month) + " " + std::to_string(dateTime->year);
+	string resultado = to_string(dateTime->day) + " " + to_string(dateTime->month) + " " + to_string(dateTime->year);
+
+	switch(format){
+		case 0:
+			resultado = PrimerParseoFechaHora(dateTime, false);
+			break;
+		case 1:
+			resultado = PrimerParseoFechaHora(dateTime, true) + " " + HoraMediodia(dateTime->hour);
+			break;
+		case 2:
+			resultado = SegundoParseoFechaHora(dateTime, true) + " " + HoraMediodia(dateTime->hour);
+			break;
+		case 3:
+			resultado = SegundoParseoFechaHora(dateTime, false);
+			break;
+		case 4:
+			resultado = to_string(dateTime->year) + ParsearDosDigitos(dateTime->month) + ParsearDosDigitos(dateTime->day) + ParsearDosDigitos(dateTime->hour)
+						+ ParsearDosDigitos(dateTime->minute) + ParsearDosDigitos(dateTime->seconds);
+			break;
+		case 5:
+			resultado = TercerParseoFechaHora(dateTime, false);
+			break;
+		case 6:
+			resultado = TercerParseoFechaHora(dateTime, true) + " " + HoraMediodia(dateTime->hour);
+			break;
+		case 7:
+			resultado = CuartoParseoFechaHora(dateTime, true) + " " + HoraMediodia(dateTime->hour);
+			break;
+		case 8:
+			resultado = CuartoParseoFechaHora(dateTime, false);
+			break;
+	}
 	return resultado;
 }
 
@@ -92,4 +163,65 @@ DateTime* CreateTM(tm* tiempo){
 			tiempo->tm_sec
 			);
 	return nuevoDateTime;
+}
+
+string ParsearDosDigitos(int numero){
+	string texto;
+	if(numero < 10){
+		texto = "0" + to_string(numero);
+	}
+	else{
+		texto = to_string(numero);
+	}
+	return texto;
+}
+
+string HoraMediodia(int hora){
+	return hora < 10 ? "a.m" : "p.m";
+}
+
+string PrimerParseoFechaHora(const DateTime* dateTime, bool formato){
+	string tiempo = ParsearDosDigitos(dateTime->year) + "-" + ParsearDosDigitos(dateTime->month)
+				+ "-" + ParsearDosDigitos(dateTime->day) + " ";
+	if(formato && dateTime->hour > 12){
+		tiempo += ParsearDosDigitos(dateTime->hour - 12);
+	}else{
+		tiempo += ParsearDosDigitos(dateTime->hour);
+	}
+	tiempo += ":" + ParsearDosDigitos(dateTime->minute) + ":" + ParsearDosDigitos(dateTime->seconds);
+	return tiempo;
+}
+
+string SegundoParseoFechaHora(const DateTime* dateTime, bool formato){
+	string tiempo = ParsearDosDigitos(dateTime->day) + "-" + ParsearDosDigitos(dateTime->month) + "-"
+			+ ParsearDosDigitos(dateTime->year) + " ";
+	if(formato && dateTime->hour > 12){
+		tiempo += ParsearDosDigitos(dateTime->hour - 12);
+	}else{
+		tiempo += ParsearDosDigitos(dateTime->hour);
+	}
+	tiempo += ":" + ParsearDosDigitos(dateTime->minute) + ":" + ParsearDosDigitos(dateTime->seconds);
+	return tiempo;
+}
+
+string TercerParseoFechaHora(const DateTime* dateTime, bool formato){
+	string tiempo = to_string(dateTime->year).substr(2,3) + "-" + to_string(dateTime->month) + "-" + to_string(dateTime->day) + " ";
+	if(formato && dateTime->hour > 12){
+		tiempo += to_string(dateTime->hour - 12);
+	}else{
+		tiempo += to_string(dateTime->hour);
+	}
+	tiempo += ":" + to_string(dateTime->minute) + ":" + to_string(dateTime->seconds);
+	return tiempo;
+}
+
+string CuartoParseoFechaHora(const DateTime* dateTime, bool formato){
+	string tiempo = to_string(dateTime->day) + "-" + to_string(dateTime->month) + "-" + to_string(dateTime->year).substr(2,3) + " ";
+		if(formato && dateTime->hour > 12){
+			tiempo += to_string(dateTime->hour - 12);
+		}else{
+			tiempo += to_string(dateTime->hour);
+		}
+		tiempo += ":" + to_string(dateTime->minute) + ":" + to_string(dateTime->seconds);
+		return tiempo;
 }
