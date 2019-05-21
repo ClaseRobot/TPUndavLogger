@@ -75,7 +75,8 @@ unsigned int ULDateTime::GetSeconds(const DateTime* dateTime){
 }
 
 string ULDateTime::ToFormat(const DateTime* dateTime, DateTimeFormat format){
-	return "";
+	string resultado = std::to_string(dateTime->day) + " " + std::to_string(dateTime->month) + " " + std::to_string(dateTime->year);
+	return resultado;
 }
 
 void ULDateTime::Destroy(DateTime* dateTime){
