@@ -9,4 +9,4 @@
 <h3>Segunda etapa</h3>
 <span>implementacion de LoggerSettings y AppenderSettings</span>
 <br/>
-<span>Fecha de entrega: ?-?-2019</span>
+<span>Fecha de entrega: 25-05-2019</span>
