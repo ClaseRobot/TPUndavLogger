@@ -1,6 +1,7 @@
 #include <iostream>
-#include "Appender.h"
-#include "DateTime.h"
+
+#include "../Entrega_uno/Appender.h"
+#include "../Entrega_uno/DateTime.h"
 
 using namespace std;
 using namespace ULDateTime;
