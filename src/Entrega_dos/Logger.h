@@ -1,10 +1,10 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
-#include "LogLevel.h"
 #include <string>
-#include "Entrega_uno/Appender.h"
-#include "Entrega_uno/DateTime.h"
+#include "LogLevel.h"
+#include "../Entrega_uno/Appender.h"
+#include "../Entrega_uno/DateTime.h"
 
 using std::string;
 using ULAppender::Appender;

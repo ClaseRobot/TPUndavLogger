@@ -119,32 +119,32 @@ string ULDateTime::ToFormat(const DateTime* dateTime, DateTimeFormat format){
 	string resultado = to_string(dateTime->day) + " " + to_string(dateTime->month) + " " + to_string(dateTime->year);
 
 	switch(format){
-		case 0:
+		case YYYYMMDD_HHmmss:
 			resultado = PrimerParseoFechaHora(dateTime, false);
 			break;
-		case 1:
+		case YYYYMMDD_hhmmss:
 			resultado = PrimerParseoFechaHora(dateTime, true) + " " + HoraMediodia(dateTime->hour);
 			break;
-		case 2:
+		case DDMMYYYY_hhmmss:
 			resultado = SegundoParseoFechaHora(dateTime, true) + " " + HoraMediodia(dateTime->hour);
 			break;
-		case 3:
+		case DDMMYYYY_HHmmss:
 			resultado = SegundoParseoFechaHora(dateTime, false);
 			break;
-		case 4:
+		case YYYYMMDDHHmmss:
 			resultado = to_string(dateTime->year) + ParsearDosDigitos(dateTime->month) + ParsearDosDigitos(dateTime->day) + ParsearDosDigitos(dateTime->hour)
 						+ ParsearDosDigitos(dateTime->minute) + ParsearDosDigitos(dateTime->seconds);
 			break;
-		case 5:
+		case YYMD_Hms:
 			resultado = TercerParseoFechaHora(dateTime, false);
 			break;
-		case 6:
+		case YYMD_hms:
 			resultado = TercerParseoFechaHora(dateTime, true) + " " + HoraMediodia(dateTime->hour);
 			break;
-		case 7:
+		case DMYY_hms:
 			resultado = CuartoParseoFechaHora(dateTime, true) + " " + HoraMediodia(dateTime->hour);
 			break;
-		case 8:
+		case DMYY_Hms:
 			resultado = CuartoParseoFechaHora(dateTime, false);
 			break;
 	}

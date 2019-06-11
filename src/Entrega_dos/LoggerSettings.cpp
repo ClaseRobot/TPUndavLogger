@@ -7,7 +7,7 @@ using ULDateTime::DateTimeFormat;
 using ULAppenderSettings::AppenderSettings;
 
 struct Nodo{
-	AppenderSettings* item;
+	ULAppenderSettings::AppenderSettings* item;
 	Nodo* siguiente;
 };
 
@@ -67,6 +67,26 @@ void ULLoggerSettings::AddAppenderSetting(LoggerSettings* setting, AppenderSetti
 	}
 }
 
+string ULLoggerSettings::ToXml(const LoggerSettings* setting){
+	string Xml = "";
+	Xml += "<logger dateTimeFormat=" + setting->DateFormat +  " />";
+	Nodo* iterador = setting->listaAppenderSettings->primero;
+	while(iterador != NULL){
+		Xml += "<appender logLevel="+ iterador->item->logLevel + " falta implementar";
+		Xml += " type= "+ iterador->item->type + " />";
+		iterador = iterador->siguiente;
+	}
+	Xml += "</logger>";
+	return Xml;
+}
+
 void ULLoggerSettings::Destroy(LoggerSettings* setting){
+	Nodo* iterador = setting->listaAppenderSettings->primero;
+	Nodo* auxiliar;
+	while(iterador != NULL){
+		auxiliar = iterador;
+		iterador = iterador->siguiente;
+		delete auxiliar;
+	}
 	delete setting;
 }

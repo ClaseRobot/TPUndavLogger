@@ -1,13 +1,22 @@
 #include <iostream>
-
 #include "../Entrega_uno/Appender.h"
 #include "../Entrega_uno/DateTime.h"
+#include "../Entrega_dos/Logger.h"
+#include "../Entrega_dos/AppenderSettings.h"
+#include "../Entrega_dos/LoggerSettings.h"
+#include "../Entrega_dos/LogLevel.h"
+#include "../Entrega_dos/AppenderType.h"
 
 using namespace std;
-using namespace ULDateTime;
+using namespace ULLogger;
+using namespace ULAppenderSettings;
+using namespace ULLoggerSettings;
+using ULDateTime::DateTimeFormat;
+
+//using namespace ULDateTime;
 
 int main() {
-	DateTime* nuevoDate = Now();
+	/*DateTime* nuevoDate = Now();
 	DateTimeFormat formato1 = YYYYMMDD_HHmmss;
 	string test1 = ToFormat(nuevoDate, formato1);
 
@@ -43,5 +52,6 @@ int main() {
 	cout<<test6<<endl;
 	cout<<test7<<endl;
 	cout<<test8<<endl;
-	cout<<test9<<endl;
+	cout<<test9<<endl;*/
+
 }
