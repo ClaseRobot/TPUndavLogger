@@ -10,3 +10,8 @@
 <span>implementacion de LoggerSettings y AppenderSettings</span>
 <br/>
 <span>Fecha de entrega: 25-05-2019</span>
+<br/>
+<h3>Tercera etapa</h3>
+<span>Construccion de un logger a partir de un XML</span>
+<br/>
+<span>Fecha de entrega: 16-06-2019</span>
