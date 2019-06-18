@@ -69,14 +69,14 @@ void ULLoggerSettings::AddAppenderSetting(LoggerSettings* setting, AppenderSetti
 
 string ULLoggerSettings::ToXml(const LoggerSettings* setting){
 	string Xml = "";
-	Xml += "<logger dateTimeFormat=" + setting->DateFormat +  " />";
+	/*Xml += "<logger dateTimeFormat=" + setting->DateFormat +  " />";
 	Nodo* iterador = setting->listaAppenderSettings->primero;
 	while(iterador != NULL){
 		Xml += "<appender logLevel="+ iterador->item->logLevel + " falta implementar";
 		Xml += " type= "+ iterador->item->type + " />";
 		iterador = iterador->siguiente;
 	}
-	Xml += "</logger>";
+	Xml += "</logger>";*/
 	return Xml;
 }
 

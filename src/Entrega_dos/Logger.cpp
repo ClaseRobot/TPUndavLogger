@@ -11,11 +11,13 @@ using namespace ULLogger;
 
 struct Nodo {
     Appender* item;
+    LogLevel logLevel;
+    string message;
     Nodo* siguiente;
 };
 
 struct Lista {
-    Nodo* nodo;
+    Nodo* primero;
 };
 
 struct ULLogger::Logger {
@@ -38,12 +40,12 @@ Nodo* CrearNodo(Appender* item, Nodo* proximo) {
 
 Lista* CrearLista(Nodo* primerElemento) {
     Lista* nuevaLista = new Lista;
-    nuevaLista->nodo = primerElemento;
+    nuevaLista->primero = primerElemento;
     return nuevaLista;
 }
 
 Nodo* ObtenerUltimoNodo(Lista* lista) {
-    Nodo* iterador = lista->nodo;
+    Nodo* iterador = lista->primero;
     while (iterador->siguiente != NULL)
     {
         iterador = iterador->siguiente;
@@ -51,7 +53,7 @@ Nodo* ObtenerUltimoNodo(Lista* lista) {
     return iterador;
 }
 
-Logger *ULLogger::Create(DateTimeFormat dateTimeFormat = ULDateTime::DDMMYYYY_hhmmss) {
+Logger *ULLogger::Create(DateTimeFormat dateTimeFormat) {
     ULLogger::Logger *newLogger = new Logger;
     newLogger->dateFormat = dateTimeFormat;
     newLogger->listaAppenders = CrearLista(NULL);
@@ -74,11 +76,14 @@ DateTimeFormat ULLogger::GetDateTimeFormat(const Logger *logger) {
 	 * Dos appender de tipo consola siempre son iguales. Dos appender de tipo archivo son iguales si tienen el mimsmo path file.
 	 */
 void ULLogger::AddAppender(Logger* logger, Appender* appender, LogLevel level) {
-    if (logger->listaAppenders->nodo == NULL)
+    if (logger->listaAppenders == NULL)
     {
-        logger->listaAppenders->nodo = CrearNodo(appender, NULL);
+        logger->listaAppenders->primero = CrearNodo(appender, NULL);
+        logger->listaAppenders->primero->logLevel = level;
+
         //Falta asignarle el loglevel
     } else {
+
         Nodo *ultimoNodo = ObtenerUltimoNodo(logger->listaAppenders);
         ultimoNodo->item = appender;
         ultimoNodo->siguiente = NULL;
@@ -88,7 +93,7 @@ void ULLogger::AddAppender(Logger* logger, Appender* appender, LogLevel level) {
 // Postcondicion : Si el @appender existe en @logger lo elimina(ya no se puede logear mas en ese appender).
 // *Si el @appender no existe, no se realiza ninguna accion
 void ULLogger::RemoveAppender(Logger *logger, Appender *appender) {
-    if (logger->listaAppenders->nodo->item != NULL)
+    if (logger->listaAppenders->primero->item != NULL)
     {
 
     }
@@ -103,37 +108,37 @@ void ULLogger::RemoveAppender(Logger *logger, Appender *appender) {
 	 * donde [datetime] es la fecha y hora actual en el formato configurado
 	 */
 void ULLogger::LogFatalMessage(Logger *logger, string message) {
-    if (logger->listaAppenders->nodo->item != NULL)
+    if (logger->listaAppenders->primero != NULL)
     {
-        if (logger->listaAppenders->nodo->item->logLevel == 'OFF')
+        if (logger->listaAppenders->primero->logLevel == 'OFF')
         {
-            logger->listaAppenders->nodo->item->message = message;
+            logger->listaAppenders->primero->message = message;
         }
     }
 }
 
 void ULLogger::LogErrorMessage(Logger *logger, string message) {
-    if (logger->listaAppenders->nodo->item != NULL)
+    if (logger->listaAppenders->primero->item != NULL)
     {
-        if (logger->listaAppenders->nodo->item->logLevel == 'ERROR')
+        if (logger->listaAppenders->primero->logLevel == 'ERROR')
         {
-            logger->listaAppenders->nodo->item->message = message;
+            logger->listaAppenders->primero->message = message;
         }
-        if (logger->listaAppenders->nodo->item->logLevel == 'WARN')
+        if (logger->listaAppenders->primero->logLevel == 'WARN')
         {
-            logger->listaAppenders->nodo->item->message = message;
+            logger->listaAppenders->primero->message = message;
         }
-        if (logger->listaAppenders->nodo->item->logLevel == 'INFO')
+        if (logger->listaAppenders->primero->logLevel == 'INFO')
         {
-            logger->listaAppenders->nodo->item->message = message;
+            logger->listaAppenders->primero->message = message;
         }
-        if (logger->listaAppenders->nodo->item->logLevel == 'DEBUG')
+        if (logger->listaAppenders->primero->logLevel == 'DEBUG')
         {
-            logger->listaAppenders->nodo->item->message = message;
+            logger->listaAppenders->primero->message = message;
         }
-        if (logger->listaAppenders->nodo->item->logLevel == 'TRACE')
+        if (logger->listaAppenders->primero->logLevel == 'TRACE')
         {
-            logger->listaAppenders->nodo->item->message = message;
+            logger->listaAppenders->primero->message = message;
         }
     }
 }

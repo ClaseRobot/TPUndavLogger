@@ -18,7 +18,7 @@ AppenderSettings* ULAppenderSettings::CreateAppenderConsoleSetting(LogLevel logL
     ULAppenderSettings::AppenderSettings *newAppenderSetting = new AppenderSettings;
     newAppenderSetting->type = Console;
     newAppenderSetting->logLevel = logLevel;
-    newAppenderSetting->path = 0;
+    newAppenderSetting->path = "";
     return newAppenderSetting;
 }
 
