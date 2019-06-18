@@ -2,9 +2,9 @@
 #include "../Entrega_uno/DateTime.h"
 #include "./AppenderSettings.h"
 
-using namespace ULLoggerSettings;
 using ULDateTime::DateTimeFormat;
 using ULAppenderSettings::AppenderSettings;
+using ULLoggerSettings::LoggerSettings;
 
 struct Nodo{
 	ULAppenderSettings::AppenderSettings* item;
@@ -20,14 +20,6 @@ struct ULLoggerSettings::LoggerSettings{
 	Lista* listaAppenderSettings;
 };
 
-//Precondicion: item es una instancia de @AppenderSettings valida, y proximo una instancia de @Nodo valido
-//PostCondicion: se devolvera una instancia valida de @Nodo
-Nodo* CrearNodo(AppenderSettings* item, Nodo* proximo);
-
-//Precondicion: primerElemento es una instancia valida de @Nodo
-//Postcondicion: Devuelve una instancia valida de @Lista con el primer elemento cargado
-Lista* CrearLista(Nodo* primerElemento);
-
 Nodo* CrearNodo(AppenderSettings* item, Nodo* proximo){
 	Nodo* nuevoNodo = new Nodo;
 	nuevoNodo->item = item;
@@ -35,13 +27,16 @@ Nodo* CrearNodo(AppenderSettings* item, Nodo* proximo){
 	return nuevoNodo;
 }
 
-
+//Precondicion: primerElemento es una instancia valida de @Nodo
+//Postcondicion: Devuelve una instancia valida de @Lista con el primer elemento cargado
 Lista* CrearLista(Nodo* primerElemento){
 	Lista* nuevaLista = new Lista;
 	nuevaLista ->primero = primerElemento;
 	return nuevaLista;
 }
 
+//Precondicion: item es una instancia de @AppenderSettings valida, y proximo una instancia de @Nodo valido
+//PostCondicion: se devolvera una instancia valida de @Nodo
 Nodo* ObtenerUltimoNodo(Lista* lista){
 	Nodo* iterador = lista->primero;
 	while(iterador->siguiente != NULL){
@@ -51,7 +46,7 @@ Nodo* ObtenerUltimoNodo(Lista* lista){
 }
 
 LoggerSettings* Create(DateTimeFormat dateTimeFormat){
-	ULLoggerSettings::LoggerSettings* nuevoLoggerSettings = new LoggerSettings;
+	LoggerSettings* nuevoLoggerSettings = new LoggerSettings;
 	nuevoLoggerSettings->DateFormat = dateTimeFormat;
 	nuevoLoggerSettings->listaAppenderSettings = CrearLista(NULL);
 	return nuevoLoggerSettings;
